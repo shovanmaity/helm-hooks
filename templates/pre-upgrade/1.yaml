@@ -1,0 +1,25 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: pre-upgrade-1
+  annotations:
+    helm.sh/hook: pre-upgrade
+spec:
+  template:
+    metadata:
+      annotations:
+    spec:
+      containers:
+      - name: print
+        image: public.ecr.aws/deepfactor/debian:buster-slim
+        command:
+        - /bin/sh
+        args:
+        - -c
+        - >
+          echo "pre upgrade 1";
+      restartPolicy: OnFailure
+      terminationGracePeriodSeconds: 0
+  backoffLimit: 3
+  completions: 1
+  parallelism: 1
